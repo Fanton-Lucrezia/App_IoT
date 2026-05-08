@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ── Palette principale lilla/viola ── -->
-    <color name="lilla_primary">#bf83fc</color>
-    <color name="lilla_dark">#9c5fda</color>
-    <color name="lilla_accent">#bf83fc</color>
-    <color name="lilla_light">#f0e8f7</color>
-    <color name="lilla_surface">#f0e8f7</color>
+    <!-- ── Palette viola principale ── -->
+    <color name="lilla_primary">#BF83FC</color>       <!-- viola chiaro, accent giorno -->
+    <color name="lilla_dark">#6A1B9A</color>           <!-- viola scuro, toolbar giorno -->
+    <color name="lilla_accent">#CE93D8</color>         <!-- viola pastello -->
+    <color name="lilla_light">#F3E5F5</color>          <!-- sfondo card giorno -->
+    <color name="lilla_surface">#F3E5F5</color>
 
-    <!-- Alias legacy -->
-    <color name="purple_200">#bf83fc</color>
-    <color name="purple_500">#bf83fc</color>
-    <color name="purple_700">#9c5fda</color>
+    <!-- ── Dark mode: tutto sul viola scuro ── -->
+    <color name="surface_dark">#1E1428</color>         <!-- sfondo card notte (viola quasi nero) -->
+    <color name="background_dark">#120D1C</color>      <!-- sfondo principale notte -->
+    <color name="on_surface_dark">#EDE7F6</color>      <!-- testo su sfondo scuro (lavanda chiaro) -->
+    <color name="lilla_dark_night">#CE93D8</color>     <!-- viola chiaro usato come primario notte -->
+    <color name="toolbar_dark_night">#2D1B45</color>   <!-- toolbar notte: viola molto scuro -->
+    <color name="card_surface_night">#261A38</color>   <!-- card notte -->
+    <color name="divider_night">#3D2B55</color>        <!-- separatori notte -->
+
+    <!-- ── Alias legacy ── -->
+    <color name="purple_200">#BF83FC</color>
+    <color name="purple_500">#9C27B0</color>
+    <color name="purple_700">#6A1B9A</color>
 
     <!-- ── Stato porta ── -->
     <color name="door_open">#2E7D32</color>
@@ -23,23 +32,25 @@
     <!-- ── Chip accesso (verde) ── -->
     <color name="chip_access_bg">#E8F5E9</color>
     <color name="chip_access_text">#2E7D32</color>
+    <color name="chip_access_bg_night">#1B3A1F</color>
+    <color name="chip_access_text_night">#81C784</color>
 
     <!-- ── Chip negato (rosso) ── -->
     <color name="chip_denied_bg">#FFEBEE</color>
     <color name="chip_denied_text">#C62828</color>
+    <color name="chip_denied_bg_night">#3B1212</color>
+    <color name="chip_denied_text_night">#EF9A9A</color>
 
     <!-- ── Warning (banner tag sconosciuto) ── -->
     <color name="warning">#E65100</color>
     <color name="warning_container">#FFF3E0</color>
     <color name="warning_on_container">#BF360C</color>
+    <color name="warning_night">#FFCC80</color>
+    <color name="warning_container_night">#2D1A00</color>
+    <color name="warning_on_container_night">#FFB74D</color>
 
     <!-- ── Errore ── -->
     <color name="error">#C62828</color>
-
-    <!-- ── Dark mode surfaces ── -->
-    <color name="surface_dark">#1C1B1F</color>
-    <color name="background_dark">#131218</color>
-    <color name="on_surface_dark">#E6E1E5</color>
 
     <!-- ── Generici ── -->
     <color name="white">#FFFFFFFF</color>
@@ -47,6 +58,4 @@
     <color name="gray_light">#F5F5F5</color>
     <color name="gray_medium">#9E9E9E</color>
     <color name="gray_dark">#616161</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
 </resources>

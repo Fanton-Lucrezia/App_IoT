@@ -34,19 +34,6 @@
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <!-- Toggle dark/light mode -->
-                <ImageView
-                    android:id="@+id/ivDarkModeToggle"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="end"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_moon"
-                    android:tint="@color/white"
-                    android:contentDescription="Cambia tema"
-                    android:background="?attr/selectableItemBackgroundBorderless" />
-
-                <!-- Icona menu drawer -->
                 <ImageView
                     android:id="@+id/menu_icon"
                     android:layout_width="48dp"
@@ -58,6 +45,17 @@
                     android:contentDescription="Menu"
                     android:background="?attr/selectableItemBackgroundBorderless" />
 
+                <!-- Toggle dark/light mode -->
+                <ImageView
+                    android:id="@+id/ivDarkModeToggle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_moon"
+                    android:tint="@color/white"
+                    android:contentDescription="Cambia tema"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
             </androidx.appcompat.widget.Toolbar>
 
             <ScrollView

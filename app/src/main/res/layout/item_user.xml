@@ -4,17 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
     android:layout_marginBottom="10dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="0dp"
-    app:strokeColor="@color/gray_light"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:strokeColor="?attr/colorSurfaceVariant"
     app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:padding="16dp">
 
         <!-- Avatar iniziale -->
@@ -23,37 +25,60 @@
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-            android:textColor="@color/lilla_dark"
-            android:background="@drawable/bg_avatar"
-            android:layout_marginEnd="14dp"/>
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_avatar" />
 
-        <!-- Nome e stato accesso -->
+        <!-- Info utente -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="12dp">
 
             <TextView
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                android:textStyle="bold" />
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp" />
 
-            <TextView
-                android:id="@+id/tvAccessLabel"
+            <!-- Chip ruolo + chip accesso -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipUserRole"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:textSize="11sp"
+                    android:layout_marginEnd="6dp"
+                    app:chipMinHeight="28dp"
+                    style="@style/Widget.Material3.Chip.Assist" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipUserAccess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:textSize="11sp"
+                    app:chipMinHeight="28dp"
+                    style="@style/Widget.Material3.Chip.Assist" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <!-- Toggle accesso -->
+        <!-- Switch accesso porta -->
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchUserAccess"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" />
 
     </LinearLayout>
 

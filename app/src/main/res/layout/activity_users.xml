@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="?attr/colorSurface">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -16,9 +16,11 @@
             android:id="@+id/usersToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
             app:title="Gestione Utenti"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:titleTextAppearance="@style/TextAppearance.DOORmotic.Toolbar" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -27,16 +29,46 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Descrizione contestuale -->
-        <TextView
+        <!-- Contatore + barra ricerca -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:paddingBottom="8dp"
-            android:text="Abilita o disabilita il permesso di apertura/chiusura porta per ciascun utente."
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@color/gray_dark" />
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp">
 
+            <TextView
+                android:id="@+id/tvUserCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorPrimary"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                android:hint="Cerca utente…"
+                app:startIconDrawable="@android:drawable/ic_menu_search"
+                app:boxCornerRadiusTopStart="24dp"
+                app:boxCornerRadiusTopEnd="24dp"
+                app:boxCornerRadiusBottomStart="24dp"
+                app:boxCornerRadiusBottomEnd="24dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSearchUsers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <!-- Loading -->
         <ProgressBar
             android:id="@+id/progressUsers"
             android:layout_width="wrap_content"
@@ -45,27 +77,55 @@
             android:layout_marginTop="48dp"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tvUsersEmpty"
+        <!-- Empty state -->
+        <LinearLayout
+            android:id="@+id/emptyStateUsers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:orientation="vertical"
             android:padding="48dp"
-            android:text="Nessun utente registrato"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            android:textColor="@color/gray_dark"
-            android:visibility="gone" />
+            android:visibility="gone">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👥"
+                android:textSize="48sp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nessun utente trovato"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <!-- Lista utenti -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvUsers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingHorizontal="16dp"
+            android:paddingHorizontal="12dp"
             android:paddingTop="8dp"
-            android:paddingBottom="16dp"
+            android:paddingBottom="80dp"
             android:visibility="gone" />
 
     </LinearLayout>
+
+    <!-- FAB refresh -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabRefreshUsers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="Aggiorna"
+        android:src="@android:drawable/ic_popup_sync"
+        android:tint="@color/white"
+        app:backgroundTint="?attr/colorPrimary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

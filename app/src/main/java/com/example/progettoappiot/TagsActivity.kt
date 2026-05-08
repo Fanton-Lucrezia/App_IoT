@@ -25,7 +25,7 @@ class TagsActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: View
-    private lateinit var tvEmpty: TextView
+    private lateinit var tvEmpty: View
     private lateinit var tvInfo: TextView
     private val tagList = mutableListOf<Tag>()
     private lateinit var adapter: TagAdapter

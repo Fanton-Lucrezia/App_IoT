@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.ProgettoAppIoT" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Brand -->
-        <item name="colorPrimary">@color/lilla_primary</item>
-        <item name="colorPrimaryVariant">@color/lilla_dark</item>
+    <style name="Theme.ProgettoAppIoT" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Brand viola -->
+        <item name="colorPrimary">@color/lilla_dark</item>
+        <item name="colorPrimaryVariant">@color/lilla_primary</item>
         <item name="colorOnPrimary">@color/white</item>
 
         <item name="colorSecondary">@color/lilla_accent</item>
         <item name="colorSecondaryVariant">@color/lilla_dark</item>
         <item name="colorOnSecondary">@color/white</item>
 
-        <!-- Surface — LIGHT -->
+        <!-- Surface bianco giorno -->
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/lilla_dark</item>
+        <item name="colorSurfaceVariant">@color/lilla_light</item>
 
         <!-- Testi -->
         <item name="android:textColorPrimary">@color/lilla_dark</item>

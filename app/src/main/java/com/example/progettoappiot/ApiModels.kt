@@ -37,8 +37,9 @@ data class Tag(
 
 /** Utente — per gestione accessi admin */
 data class UserItem(
-    val username:        String,
-    val has_door_access: Boolean = false
+    val username: String,
+    val has_door_access: Boolean,
+    val is_admin: Boolean? = null      //nullable per retrocompatibilità
 )
 
 data class GenericResponse(

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.ProgettoAppIoT" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Brand dark — lilla più chiaro per contrasto su sfondo scuro -->
+        <item name="colorPrimary">@color/lilla_primary</item>
+        <item name="colorPrimaryVariant">@color/lilla_accent</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/lilla_accent</item>
+        <item name="colorSecondaryVariant">@color/lilla_primary</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Surface — DARK -->
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/on_surface_dark</item>
+
+        <!-- Testi -->
+        <item name="android:textColorPrimary">@color/on_surface_dark</item>
+        <item name="android:textColorSecondary">@color/gray_medium</item>
+        <item name="android:textColor">@color/on_surface_dark</item>
+        <item name="android:textColorHint">@color/gray_medium</item>
+        <item name="android:editTextColor">@color/on_surface_dark</item>
+
+        <!-- Finestra -->
+        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:statusBarColor">@color/background_dark</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
+    <style name="TextAppearance.DOORmotic.Toolbar" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

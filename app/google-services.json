@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "514849609154",
+    "project_id": "doormotic",
+    "storage_bucket": "doormotic.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514849609154:android:11f62aeea70cc93d9bb25b",
+        "android_client_info": {
+          "package_name": "com.example.progettoappiot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxoQ6c0AY6v0GYNjYfFejoUV_YyESNZTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

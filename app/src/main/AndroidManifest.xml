@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ProgettoAppIoT"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+
+        <activity android:name=".LoginActivity" android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".RegisterActivity"  android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".MainActivity"      android:exported="false" />
+        <activity android:name=".StoricoActivity"   android:exported="false" android:label="Storico Accessi" />
+        <activity android:name=".CustomScanActivity" android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <service android:name=".MyHostApduService" android:exported="true"
+            android:permission="android.permission.BIND_NFC_SERVICE">
+            <intent-filter>
+                <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE" />
+            </intent-filter>
+            <meta-data android:name="android.nfc.cardemulation.host_apdu_service"
+                android:resource="@xml/apdu_service" />
+        </service>
+
+        <!-- Firebase Cloud Messaging -->
+        <service
+            android:name=".DoormoticMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Tag RFID (già esistente, lasciala com'è) -->
+        <!-- <activity android:name=".TagsActivity" ... /> -->
+
+        <!-- Nuovo: Configura un tag sconosciuto -->
+        <activity
+            android:name=".AddTagActivity"
+            android:label="Configura Tag"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+
+        <!-- Nuovo: Gestione accessi utenti (solo admin) -->
+        <activity
+            android:name=".UsersActivity"
+            android:label="Gestione Utenti"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+
+        <!-- Aggiorna ProfileActivity se già presente, altrimenti aggiungila -->
+        <activity
+            android:name=".ProfileActivity"
+            android:label="Profilo"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+
+        <!-- Aggiorna SettingsActivity se già presente -->
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Impostazioni"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TagsActivity"
+            android:label="Tag RFID"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+
+    </application>
+</manifest>

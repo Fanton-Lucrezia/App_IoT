@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Solo admin -->
+    <item
+        android:id="@+id/nav_storico"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Storico Accessi"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/nav_tags"
+        android:icon="@drawable/ic_nfc"
+        android:title="Tag RFID"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/nav_users"
+        android:icon="@drawable/ic_people"
+        android:title="Gestione Utenti"
+        android:visible="false" />
+
+    <!-- Tutti gli utenti -->
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_person"
+        android:title="Profilo" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Impostazioni" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_logout"
+        android:title="Esci" />
+
+</menu>

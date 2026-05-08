@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <!-- Anteprima camera a tutto schermo -->
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:id="@+id/barcode_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Overlay scuro sopra/sotto il quadrato -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Zona scura in alto -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#99000000" />
+
+        <!-- Riga centrale: scuro | quadrato trasparente | scuro -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#99000000" />
+
+            <!-- Il quadrato "pulito" dove si vede la camera -->
+            <FrameLayout
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                android:background="@android:color/transparent">
+
+                <!-- Angolini decorativi viola -->
+                <!-- Angolo in alto a sinistra -->
+                <View android:layout_width="40dp" android:layout_height="4dp"
+                    android:background="@color/lilla_primary"
+                    android:layout_gravity="top|start" />
+                <View android:layout_width="4dp" android:layout_height="40dp"
+                    android:background="@color/lilla_primary"
+                    android:layout_gravity="top|start" />
+                <!-- Angolo in alto a destra -->
+                <View android:layout_width="40dp" android:layout_height="4dp"
+                    android:background="@color/lilla_primary"
+                    android:layout_gravity="top|end" />
+                <View android:layout_width="4dp" android:layout_height="40dp"
+                    android:background="@color/lilla_primary"
+                    android:layout_gravity="top|end" />
+                <!-- Angolo in basso a sinistra -->
+                <View android:layout_width="40dp" android:layout_height="4dp"
+                    android:background="@color/lilla_primary"
+                    android:layout_gravity="bottom|start" />
+                <View android:layout_width="4dp" android:layout_height="40dp"
+                    android:background="@color/lilla_primary"
+                    android:layout_gravity="bottom|start" />
+                <!-- Angolo in basso a destra -->
+                <View android:layout_width="40dp" android:layout_height="4dp"
+                    android:background="@color/lilla_primary"
+                    android:layout_gravity="bottom|end" />
+                <View android:layout_width="4dp" android:layout_height="40dp"
+                    android:background="@color/lilla_primary"
+                    android:layout_gravity="bottom|end" />
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#99000000" />
+
+        </LinearLayout>
+
+        <!-- Zona scura in basso + testo istruzioni -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#99000000"
+            android:gravity="top|center_horizontal"
+            android:paddingTop="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inquadra il QR code nel riquadro"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Tasto chiudi in alto a sinistra -->
+    <ImageButton
+        android:id="@+id/btnCloseScanner"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:tint="@color/white"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Chiudi" />
+
+</RelativeLayout>

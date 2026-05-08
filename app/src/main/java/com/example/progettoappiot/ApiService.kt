@@ -1,0 +1,67 @@
+package com.example.progettoappiot
+
+import retrofit2.Call
+import retrofit2.http.*
+
+interface ApiService {
+
+    // ── Autenticazione ──────────────────────────────────────────────
+    @POST("login")
+    fun login(@Body body: Map<String, String>): Call<LoginResponse>
+
+    @POST("register")
+    fun register(@Body body: Map<String, String>): Call<RegisterResponse>
+
+    // ── Porta ───────────────────────────────────────────────────────
+    @GET("stato_porta")
+    fun getStatoPorta(): Call<StatoPortaResponse>
+
+    @POST("apri_porta")
+    fun apriPorta(@Body body: Map<String, String>): Call<Void>
+
+    @POST("chiudi_porta")
+    fun chiudiPorta(@Body body: Map<String, String>): Call<Void>
+
+    // ── Accessi ─────────────────────────────────────────────────────
+    @GET("accessi")
+    fun getAccessi(@Query("limit") limit: Int = 5): Call<List<Accesso>>
+
+    @GET("accessi/count")
+    fun getAccessiCount(): Call<Map<String, Int>>
+
+    // ── Tag RFID (solo admin) ────────────────────────────────────────
+    @GET("tags")
+    fun getTags(): Call<List<Tag>>
+
+    @PATCH("tags/{tag_id}")
+    fun updateTag(
+        @Path("tag_id") tagId: String,
+        @Body body: Map<String, @JvmSuppressWildcards Any>
+    ): Call<Map<String, Boolean>>
+
+    // ── Utenti (solo admin) ──────────────────────────────────────────
+    @GET("users")
+    fun getUsers(): Call<List<UserItem>>
+
+    @PATCH("users/{username}")
+    fun updateUser(
+        @Path("username") username: String,
+        @Body body: Map<String, @JvmSuppressWildcards Any>
+    ): Call<GenericResponse>
+
+    @PATCH("users/{username}/password")
+    fun changePassword(
+        @Path("username") username: String,
+        @Body body: Map<String, String>
+    ): Call<GenericResponse>
+
+    @PATCH("users/{username}/profile_picture")
+    fun updateProfilePicture(
+        @Path("username") username: String,
+        @Body body: Map<String, String>
+    ): Call<GenericResponse>
+
+    // ── Notifiche push FCM ──────────────────────────────────────────
+    @POST("register_fcm_token")
+    fun registerFcmToken(@Body body: Map<String, String>): Call<Map<String, Boolean>>
+}

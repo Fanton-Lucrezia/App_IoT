@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/gray_light"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="14dp">
+
+        <!-- Avatar iniziale / punto interrogativo -->
+        <TextView
+            android:id="@+id/tvTagInitial"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textColor="@color/lilla_dark"
+            android:background="@drawable/bg_avatar"
+            android:layout_marginEnd="14dp"/>
+
+        <!-- Colonna testi -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Nome tag -->
+            <TextView
+                android:id="@+id/tvTagLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textStyle="bold"
+                android:layout_marginBottom="2dp"/>
+
+            <!-- UID in monospace -->
+            <TextView
+                android:id="@+id/tvTagId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/gray_dark"
+                android:layout_marginBottom="6dp"/>
+
+            <!-- Chip row -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Chip accesso / negato -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTagAccess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="6dp"
+                    android:textSize="11sp"
+                    app:chipMinHeight="28dp"
+                    app:chipStartPadding="8dp"
+                    app:chipEndPadding="8dp"
+                    style="@style/Widget.Material3.Chip.Assist"/>
+
+                <!-- Chip "Nuovo" — visibile solo per tag sconosciuti -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTagNew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:text="Da configurare"
+                    android:textSize="11sp"
+                    app:chipBackgroundColor="@color/warning_container"
+                    app:chipMinHeight="28dp"
+                    app:chipStartPadding="8dp"
+                    app:chipEndPadding="8dp"
+                    android:textColor="@color/warning_on_container"
+                    android:visibility="gone"
+                    style="@style/Widget.Material3.Chip.Assist"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Freccia modifica -->
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_arrow_forward"
+            android:alpha="0.4"
+            app:tint="@color/lilla_dark"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

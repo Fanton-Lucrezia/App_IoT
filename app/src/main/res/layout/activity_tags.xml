@@ -16,9 +16,12 @@
             android:id="@+id/tagsToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/lilla_primary"
             app:title="Tag RFID"
             app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
             app:titleTextAppearance="@style/TextAppearance.DOORmotic.Toolbar" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -36,7 +39,7 @@
             android:paddingTop="14dp"
             android:paddingBottom="4dp"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@color/gray_dark"
+            android:textColor="@color/lilla_primary"
             android:visibility="gone" />
 
         <!-- Loading -->
@@ -63,24 +66,25 @@
                 android:layout_height="wrap_content"
                 android:text="📭"
                 android:textSize="48sp"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="12dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nessun tag registrato"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                android:textColor="@color/gray_dark"
-                android:gravity="center"/>
+                android:textColor="@color/text_primary"
+                android:gravity="center" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Avvicina un tag al lettore per registrarlo"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                android:textColor="@color/gray_dark"
+                android:textColor="@color/text_secondary"
                 android:gravity="center"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp" />
+
         </LinearLayout>
 
         <!-- Lista tag -->

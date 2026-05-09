@@ -8,6 +8,10 @@ android {
     namespace = "com.example.progettoappiot"
     compileSdk = 34
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.example.progettoappiot"
         minSdk = 24
@@ -15,6 +19,11 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField(
+            "String",
+            "API_KEY",
+            "\"${project.properties["API_KEY"]}\""
+        )
     }
 
     buildTypes {

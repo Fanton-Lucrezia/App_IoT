@@ -16,9 +16,12 @@
             android:id="@+id/settingsToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/lilla_primary"
             app:title="Impostazioni"
             app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
             app:titleTextAppearance="@style/TextAppearance.DOORmotic.Toolbar" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -38,9 +41,9 @@
                 android:layout_height="wrap_content"
                 android:text="SERVER"
                 android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-                android:textColor="?attr/colorPrimary"
+                android:textColor="@color/lilla_primary"
                 android:letterSpacing="0.1"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -48,7 +51,8 @@
                 android:layout_marginBottom="24dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="@color/gray_light"
+                app:cardBackgroundColor="@color/lilla_light"
+                app:strokeColor="@color/lilla_accent"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -63,15 +67,16 @@
                         android:text="Indirizzo server"
                         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                         android:textStyle="bold"
-                        android:layout_marginBottom="4dp"/>
+                        android:textColor="@color/lilla_dark"
+                        android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="L'indirizzo è già configurato. Modificalo solo se necessario."
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                        android:textColor="@color/gray_dark"
-                        android:layout_marginBottom="12dp"/>
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginBottom="12dp" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -87,6 +92,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="textUri"
                             android:maxLines="1" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Stato connessione -->
@@ -96,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <ProgressBar
                         android:id="@+id/progressConnection"
@@ -104,7 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <!-- Bottoni azione -->
                     <LinearLayout
@@ -121,7 +127,7 @@
                             android:layout_marginEnd="8dp"
                             android:text="Testa"
                             app:icon="@drawable/ic_wifi"
-                            app:cornerRadius="12dp"/>
+                            app:cornerRadius="12dp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnResetUrl"
@@ -132,7 +138,7 @@
                             android:layout_marginEnd="8dp"
                             android:text="Ripristina"
                             app:icon="@drawable/ic_refresh"
-                            app:cornerRadius="12dp"/>
+                            app:cornerRadius="12dp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnSaveUrl"
@@ -141,7 +147,7 @@
                             android:layout_weight="1"
                             android:text="Salva"
                             app:icon="@drawable/ic_check"
-                            app:cornerRadius="12dp"/>
+                            app:cornerRadius="12dp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -153,16 +159,17 @@
                 android:layout_height="wrap_content"
                 android:text="INFORMAZIONI"
                 android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-                android:textColor="?attr/colorPrimary"
+                android:textColor="@color/lilla_primary"
                 android:letterSpacing="0.1"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="@color/gray_light"
+                app:cardBackgroundColor="@color/lilla_light"
+                app:strokeColor="@color/lilla_accent"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -183,28 +190,30 @@
                             android:layout_height="24dp"
                             android:layout_marginEnd="16dp"
                             android:src="@drawable/ic_info"
-                            app:tint="@color/gray_dark"/>
+                            app:tint="@color/lilla_dark" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Versione app"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                            android:textColor="@color/text_primary" />
 
                         <TextView
                             android:id="@+id/tvAppVersion"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="@color/gray_dark"/>
+                            android:textColor="@color/text_secondary" />
+
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginHorizontal="16dp"
-                        android:background="@color/gray_light"/>
+                        android:background="@color/lilla_accent" />
 
                     <!-- Nome progetto -->
                     <LinearLayout
@@ -219,21 +228,23 @@
                             android:layout_height="24dp"
                             android:layout_marginEnd="16dp"
                             android:src="@drawable/ic_door"
-                            app:tint="@color/gray_dark"/>
+                            app:tint="@color/lilla_dark" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Progetto"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                            android:textColor="@color/text_primary" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="DOORmotic"
                             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="@color/gray_dark"/>
+                            android:textColor="@color/text_secondary" />
+
                     </LinearLayout>
 
                 </LinearLayout>

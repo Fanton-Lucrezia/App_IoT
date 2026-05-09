@@ -4,7 +4,7 @@
     <!-- Solo admin -->
     <item
         android:id="@+id/nav_storico"
-        android:icon="@android:drawable/ic_menu_recent_history"
+        android:icon="@drawable/ic_refresh"
         android:title="Storico Accessi"
         android:visible="false" />
 
@@ -28,7 +28,7 @@
 
     <item
         android:id="@+id/nav_settings"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:icon="@drawable/ic_info"
         android:title="Impostazioni" />
 
     <item

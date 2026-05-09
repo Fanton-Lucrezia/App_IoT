@@ -22,17 +22,16 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/lilla_dark"
-                android:elevation="4dp">
+                android:background="@color/primary_dark"
+                android:elevation="4dp"
+                app:contentInsetStartWithNavigation="0dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="DOORmotic"
-                    android:textColor="@color/white"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    style="@style/TextAppearance.DOORmotic.Toolbar" />
 
                 <ImageView
                     android:id="@+id/menu_icon"
@@ -40,12 +39,11 @@
                     android:layout_height="48dp"
                     android:layout_gravity="end"
                     android:padding="8dp"
-                    android:src="@android:drawable/ic_menu_sort_by_size"
-                    android:tint="@color/white"
+                    android:src="@drawable/ic_menu"
+                    app:tint="@color/white"
                     android:contentDescription="Menu"
                     android:background="?attr/selectableItemBackgroundBorderless" />
 
-                <!-- Toggle dark/light mode -->
                 <ImageView
                     android:id="@+id/ivDarkModeToggle"
                     android:layout_width="48dp"
@@ -53,9 +51,11 @@
                     android:layout_gravity="end"
                     android:padding="10dp"
                     android:src="@drawable/ic_moon"
-                    android:tint="@color/white"
+                    app:tint="@color/white"
                     android:contentDescription="Cambia tema"
                     android:background="?attr/selectableItemBackgroundBorderless" />
+
+
             </androidx.appcompat.widget.Toolbar>
 
             <ScrollView
@@ -123,7 +123,7 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/ic_arrow_forward"
-                                android:tint="@color/warning_on_container"/>
+                                app:tint="@color/warning_on_container"/>
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 

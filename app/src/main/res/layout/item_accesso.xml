@@ -8,7 +8,9 @@
     android:layout_marginVertical="4dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="2dp"
-    app:cardBackgroundColor="@color/lilla_light">
+    app:cardBackgroundColor="@color/lilla_light"
+    app:strokeColor="@color/lilla_accent"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +19,6 @@
         android:padding="12dp"
         android:gravity="center_vertical">
 
-        <!-- Info utente + data -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,12 +39,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="01/01/2024"
-                android:textColor="@color/gray_medium"
+                android:textColor="@color/text_secondary"
                 android:textSize="11sp" />
 
         </LinearLayout>
 
-        <!-- Azione (Aperta / Bloccata) -->
         <TextView
             android:id="@+id/tvAzione"
             android:layout_width="wrap_content"
@@ -51,15 +51,15 @@
             android:layout_marginEnd="12dp"
             android:text="🔒 Bloccata"
             android:textSize="13sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
 
-        <!-- Orario -->
         <TextView
             android:id="@+id/orarioTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10:00"
-            android:textColor="@color/gray_dark"
+            android:textColor="@color/text_secondary"
             android:textSize="13sp" />
 
     </LinearLayout>

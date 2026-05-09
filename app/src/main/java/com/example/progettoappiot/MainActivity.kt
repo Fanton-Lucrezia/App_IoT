@@ -20,6 +20,7 @@ import androidx.work.*
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import android.content.res.ColorStateList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -118,6 +119,11 @@ class MainActivity : AppCompatActivity() {
     // ── Drawer ────────────────────────────────────────────────────────
     private fun setupDrawer() {
         val navView = findViewById<NavigationView>(R.id.nav_view)
+
+        // Forza TUTTE le icone del drawer al viola principale — uguale per tutti
+        navView.itemIconTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(this, R.color.lilla_primary)
+        )
         val header  = navView.getHeaderView(0)
         header.findViewById<TextView>(R.id.navHeaderUsername)?.text = username
         header.findViewById<TextView>(R.id.navHeaderRole)?.text =

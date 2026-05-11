@@ -57,14 +57,25 @@
                         android:padding="20dp"
                         app:tint="@color/lilla_dark" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/btnChangePicture"
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="32dp"
-                        android:layout_height="25dp"
+                        android:layout_height="32dp"
                         android:layout_gravity="bottom|end"
-                        app:fabSize="mini"
-                        app:srcCompat="@drawable/ic_camera"
-                        app:tint="?attr/colorOnPrimary" />
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/lilla_light"
+                        app:strokeColor="@color/lilla_dark"
+                        app:strokeWidth="2dp">
+
+                        <ImageView
+                            android:id="@+id/btnChangePicture"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_camera"
+                            android:padding="6dp"
+                            app:tint="@color/lilla_dark" />
+
+                    </com.google.android.material.card.MaterialCardView>
 
                 </FrameLayout>
 

@@ -42,11 +42,12 @@
                 android:id="@+id/tvTagLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                 android:textStyle="bold"
-                android:layout_marginBottom="2dp"/>
+                android:textSize="1sp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="4dp"/>
 
-            <!-- UID in monospace -->
             <TextView
                 android:id="@+id/tvTagId"
                 android:layout_width="wrap_content"
@@ -54,7 +55,7 @@
                 android:fontFamily="monospace"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 android:textColor="@color/gray_dark"
-                android:layout_marginBottom="6dp"/>
+                android:layout_marginBottom="4dp"/>
 
             <!-- Chip row -->
             <LinearLayout

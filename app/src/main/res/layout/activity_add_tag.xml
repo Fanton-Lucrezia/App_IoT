@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Configura Tag"
-            android:background="@color/lilla_primary"
+            android:background="@color/lilla_dark"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:titleTextAppearance="@style/TextAppearance.DOORmotic.Toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -100,7 +100,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences"
                     android:maxLines="1"
-                    android:imeOptions="actionDone" />
+                    android:imeOptions="actionDone"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Sezione: Permesso accesso -->

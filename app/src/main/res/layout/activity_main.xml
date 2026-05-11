@@ -262,7 +262,7 @@
             android:layout_margin="16dp"
             android:contentDescription="Aggiorna"
             android:src="@android:drawable/ic_popup_sync"
-            android:tint="@color/white"
+            app:tint="@color/white"
             android:visibility="gone"
             app:backgroundTint="@color/lilla_accent" />
 

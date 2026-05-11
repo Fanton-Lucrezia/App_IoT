@@ -10,7 +10,7 @@
         android:id="@+id/storicoToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/lilla_primary"
+        android:background="@color/primary_dark"
         android:elevation="4dp"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:navigationIconTint="@color/white"
@@ -42,6 +42,6 @@
         android:layout_gravity="center"
         android:layout_margin="24dp"
         android:visibility="gone"
-        android:indeterminateTint="@color/lilla_primary" />
+        android:indeterminateTint="@color/lilla_dark" />
 
 </LinearLayout>

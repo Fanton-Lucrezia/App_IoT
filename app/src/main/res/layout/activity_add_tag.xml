@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Configura Tag"
+            android:background="@color/lilla_primary"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:titleTextAppearance="@style/TextAppearance.DOORmotic.Toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -118,7 +119,8 @@
                 android:layout_marginBottom="32dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="@color/gray_light"
+                app:cardBackgroundColor="@color/lilla_light"
+                app:strokeColor="@color/lilla_dark"
                 app:strokeWidth="1dp">
 
                 <LinearLayout

@@ -16,7 +16,7 @@
             android:id="@+id/tagsToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/lilla_primary"
+            android:background="@color/lilla_dark"
             app:title="Tag RFID"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="@color/white"

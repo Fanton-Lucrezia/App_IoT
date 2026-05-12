@@ -120,15 +120,31 @@ class UsersActivity : AppCompatActivity() {
     }
 
     private fun confirmToggleAccess(user: UserItem, hasAccess: Boolean) {
-        val action = if (hasAccess) "concedere" else "revocare"
-        val icon   = if (hasAccess) "✅" else "🚫"
-        AlertDialog.Builder(this)
-            .setTitle("$icon Modifica accesso")
-            .setMessage("Vuoi $action l'accesso alla porta a «${user.username}»?")
-            .setPositiveButton("Conferma") { _, _ -> toggleUserAccess(user.username, hasAccess) }
-            .setNegativeButton("Annulla")  { _, _ -> loadUsers() } // ripristina switch
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_confirm_access, null)
+
+        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text =
+            if (hasAccess) "Concedi accesso" else "Revoca accesso"
+        dialogView.findViewById<TextView>(R.id.tvDialogMessage).text =
+            if (hasAccess) "Vuoi dare l'accesso alla porta a «${user.username}»?"
+            else "Vuoi revocare l'accesso alla porta a «${user.username}»?"
+        dialogView.findViewById<TextView>(R.id.tvDialogIcon).text =
+            if (hasAccess) "✅" else "🚫"
+
+        val dialog = AlertDialog.Builder(this, R.style.TransparentDialog)
+            .setView(dialogView)
             .setCancelable(false)
-            .show()
+            .create()
+
+        dialogView.findViewById<View>(R.id.btnConfirm).setOnClickListener {
+            dialog.dismiss()
+            toggleUserAccess(user.username, hasAccess)
+        }
+        dialogView.findViewById<View>(R.id.btnCancel).setOnClickListener {
+            dialog.dismiss()
+            loadUsers()
+        }
+
+        dialog.show()
     }
 
     private fun toggleUserAccess(username: String, hasAccess: Boolean) {

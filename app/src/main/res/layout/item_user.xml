@@ -6,10 +6,11 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="4dp"
     android:layout_marginBottom="10dp"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="16dp"
-    app:cardElevation="2dp"
-    app:cardBackgroundColor="?attr/colorSurface"
-    app:strokeColor="?attr/colorSurfaceVariant"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/lilla_light"
+    app:strokeColor="@color/lilla_dark"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -17,7 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="16dp">
+        android:padding="10dp">
 
         <!-- Avatar iniziale -->
         <TextView
@@ -27,7 +28,7 @@
             android:gravity="center"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/lilla_dark"
             android:background="@drawable/bg_avatar" />
 
         <!-- Info utente -->
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?attr/textAppearanceBodyLarge"
                 android:textStyle="bold"
+                android:textColor="@color/lilla_dark"
                 android:layout_marginBottom="6dp" />
 
             <!-- Chip ruolo + chip accesso -->
@@ -55,7 +57,7 @@
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipUserRole"
                     android:layout_width="wrap_content"
-                    android:layout_height="28dp"
+                    android:layout_height="40dp"
                     android:textSize="11sp"
                     android:layout_marginEnd="6dp"
                     app:chipMinHeight="28dp"
@@ -64,7 +66,7 @@
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipUserAccess"
                     android:layout_width="wrap_content"
-                    android:layout_height="28dp"
+                    android:layout_height="40dp"
                     android:textSize="11sp"
                     app:chipMinHeight="28dp"
                     style="@style/Widget.Material3.Chip.Assist" />

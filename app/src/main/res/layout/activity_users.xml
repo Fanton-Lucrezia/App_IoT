@@ -16,7 +16,7 @@
             android:id="@+id/usersToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/lilla_primary"
+            android:background="@color/lilla_dark"
             app:title="Gestione Utenti"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="@color/white"
@@ -63,7 +63,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:textColor="@color/lilla_dark"
+                    android:textColorHint="@color/gray_medium"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

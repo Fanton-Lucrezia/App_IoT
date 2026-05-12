@@ -44,17 +44,6 @@
                     android:contentDescription="Menu"
                     android:background="?attr/selectableItemBackgroundBorderless" />
 
-                <ImageView
-                    android:id="@+id/ivDarkModeToggle"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="end"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_moon"
-                    app:tint="@color/white"
-                    android:contentDescription="Cambia tema"
-                    android:background="?attr/selectableItemBackgroundBorderless" />
-
 
             </androidx.appcompat.widget.Toolbar>
 

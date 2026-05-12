@@ -25,6 +25,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import android.view.LayoutInflater
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var statusTextView:  TextView
     private lateinit var btnDoor:         MaterialButton
     private lateinit var adapter:         AccessoAdapter
-    private lateinit var ivDarkModeToggle: ImageView
 
     private var isAdmin       = false
     private var hasDoorAccess = false
@@ -59,11 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         // Ripristina modalità dark/light salvata
         val prefs = getSharedPreferences("DOORmotic", MODE_PRIVATE)
-        val isDark = prefs.getBoolean("dark_mode", false)
-        AppCompatDelegate.setDefaultNightMode(
-            if (isDark) AppCompatDelegate.MODE_NIGHT_YES
-            else AppCompatDelegate.MODE_NIGHT_NO
-        )
 
         isAdmin       = intent.getBooleanExtra("IS_ADMIN",       prefs.getBoolean("is_admin", false))
         hasDoorAccess = intent.getBooleanExtra("HAS_DOOR_ACCESS", prefs.getBoolean("has_door_access", false))
@@ -89,31 +84,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         drawerLayout = findViewById(R.id.drawer_layout)
-
-        ivDarkModeToggle = findViewById(R.id.ivDarkModeToggle)
         val prefs = getSharedPreferences("DOORmotic", MODE_PRIVATE)
-        updateDarkModeIcon(prefs.getBoolean("dark_mode", false))
-
-        ivDarkModeToggle.setOnClickListener {
-            val currentlyDark = prefs.getBoolean("dark_mode", false)
-            val newDark = !currentlyDark
-            prefs.edit().putBoolean("dark_mode", newDark).apply()
-            AppCompatDelegate.setDefaultNightMode(
-                if (newDark) AppCompatDelegate.MODE_NIGHT_YES
-                else AppCompatDelegate.MODE_NIGHT_NO
-            )
-            // recreate() viene chiamato automaticamente da AppCompatDelegate
-        }
-
         findViewById<ImageView>(R.id.menu_icon).setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.END)
         }
-    }
-
-    private fun updateDarkModeIcon(isDark: Boolean) {
-        ivDarkModeToggle.setImageResource(
-            if (isDark) R.drawable.ic_sun else R.drawable.ic_moon
-        )
     }
 
     // ── Drawer ────────────────────────────────────────────────────────
@@ -339,18 +313,31 @@ class MainActivity : AppCompatActivity() {
 
     // ── Logout ────────────────────────────────────────────────────────
     private fun showLogoutDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Logout")
-            .setMessage("Sei sicuro di voler uscire?")
-            .setPositiveButton("Sì") { _, _ ->
-                handler.removeCallbacks(pollingRunnable)
-                WorkManager.getInstance(this).cancelUniqueWork("door_polling")
-                getSharedPreferences("DOORmotic", MODE_PRIVATE).edit().clear().apply()
-                RetrofitClient.resetInstance()
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            }
-            .setNegativeButton("No", null)
-            .show()
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_confirm_access, null)
+
+        dialogView.findViewById<TextView>(R.id.tvDialogIcon).text = "👋"
+        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text = "Logout"
+        dialogView.findViewById<TextView>(R.id.tvDialogMessage).text = "Sei sicuro di voler uscire?"
+        dialogView.findViewById<MaterialButton>(R.id.btnConfirm).text = "Sì, esci"
+
+        val dialog = AlertDialog.Builder(this, R.style.TransparentDialog)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+
+        dialogView.findViewById<View>(R.id.btnCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogView.findViewById<View>(R.id.btnConfirm).setOnClickListener {
+            dialog.dismiss()
+            handler.removeCallbacks(pollingRunnable)
+            WorkManager.getInstance(this).cancelUniqueWork("door_polling")
+            getSharedPreferences("DOORmotic", MODE_PRIVATE).edit().clear().apply()
+            RetrofitClient.resetInstance()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
+        dialog.show()
     }
 }

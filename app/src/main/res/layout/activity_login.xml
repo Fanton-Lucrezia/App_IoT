@@ -13,12 +13,13 @@
         android:orientation="vertical"
         android:padding="32dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:layout_marginTop="48dp"
-            android:text="🚪"
-            android:textSize="72sp" />
+            android:src="@drawable/logo_doormotic"
+            android:scaleType="fitCenter"
+            android:contentDescription="Logo DOORmotic" />
 
         <TextView
             android:layout_width="wrap_content"

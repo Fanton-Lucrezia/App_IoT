@@ -64,4 +64,10 @@ interface ApiService {
     // ── Notifiche push FCM ──────────────────────────────────────────
     @POST("register_fcm_token")
     fun registerFcmToken(@Body body: Map<String, String>): Call<Map<String, Boolean>>
+
+    @DELETE("tags/{tagId}")
+    fun deleteTag(@Path("tagId") tagId: String): Call<GenericResponse>
+
+    @DELETE("users/{username}")
+    fun deleteUser(@Path("username") username: String): Call<GenericResponse>
 }

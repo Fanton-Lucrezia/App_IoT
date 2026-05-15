@@ -1,13 +1,17 @@
 package com.example.progettoappiot
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -16,7 +20,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,7 +35,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var username: String
     private lateinit var progressBar: View
 
-    // Launcher per selezionare immagine dalla galleria
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -62,29 +64,18 @@ class ProfileActivity : AppCompatActivity() {
         tvUsername.text = username
         tvRole.text     = if (isAdmin) "Amministratore" else "Utente"
 
-        // Carica foto profilo salvata localmente (cache rapida)
         val savedPic = prefs.getString("profile_picture_b64", null)
-        if (!savedPic.isNullOrEmpty()) {
-            setAvatarFromBase64(savedPic)
-        }
+        if (!savedPic.isNullOrEmpty()) setAvatarFromBase64(savedPic)
 
-        // Tap sull'avatar → scegli foto
         ivAvatar.setOnClickListener { openGallery() }
         findViewById<View>(R.id.btnChangePicture).setOnClickListener { openGallery() }
 
-        // Cambia password
         findViewById<MaterialButton>(R.id.btnChangePassword).setOnClickListener {
             showChangePasswordDialog()
         }
 
-        // Logout
         findViewById<MaterialButton>(R.id.btnLogout).setOnClickListener {
-            MaterialAlertDialogBuilder(this)
-                .setTitle("Esci")
-                .setMessage("Vuoi davvero uscire dall'account?")
-                .setPositiveButton("Esci") { _, _ -> logout() }
-                .setNegativeButton("Annulla", null)
-                .show()
+            showLogoutDialog()
         }
     }
 
@@ -98,8 +89,6 @@ class ProfileActivity : AppCompatActivity() {
     private fun uploadProfilePicture(uri: Uri) {
         val inputStream: InputStream = contentResolver.openInputStream(uri) ?: return
         val bitmap = BitmapFactory.decodeStream(inputStream)
-
-        // Ridimensiona a max 256×256 per limitare la dimensione in DB
         val scaled = Bitmap.createScaledBitmap(bitmap, 256, 256, true)
         val baos   = ByteArrayOutputStream()
         scaled.compress(Bitmap.CompressFormat.JPEG, 80, baos)
@@ -114,7 +103,6 @@ class ProfileActivity : AppCompatActivity() {
                     progressBar.visibility = View.GONE
                     if (response.isSuccessful) {
                         setAvatarFromBase64(b64)
-                        // Salva anche in locale per caricamento rapido
                         getSharedPreferences("DOORmotic", MODE_PRIVATE)
                             .edit().putString("profile_picture_b64", b64).apply()
                         Toast.makeText(this@ProfileActivity, "Foto aggiornata", Toast.LENGTH_SHORT).show()
@@ -138,47 +126,53 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     // ── Cambio password ───────────────────────────────────────────────────────
+    // Usa Dialog trasparente con layout custom (dialog_change_password.xml)
+    // così rispetta la card con angoli arrotondati, icona e bottoni stilizzati.
 
     private fun showChangePasswordDialog() {
-        val view = layoutInflater.inflate(R.layout.dialog_change_password, null)
-        val etOld = view.findViewById<TextInputEditText>(R.id.etOldPassword)
-        val etNew = view.findViewById<TextInputEditText>(R.id.etNewPassword)
-        val etConf= view.findViewById<TextInputEditText>(R.id.etConfirmPassword)
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_change_password)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(true)
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Cambia password")
-            .setView(view)
-            .setPositiveButton("Salva", null) // override sotto per non chiudere in caso di errore
-            .setNegativeButton("Annulla", null)
-            .create()
-            .also { dialog ->
-                dialog.setOnShowListener {
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                        val oldPw  = etOld.text.toString()
-                        val newPw  = etNew.text.toString()
-                        val confPw = etConf.text.toString()
+        val etOld  = dialog.findViewById<TextInputEditText>(R.id.etOldPassword)
+        val etNew  = dialog.findViewById<TextInputEditText>(R.id.etNewPassword)
+        val etConf = dialog.findViewById<TextInputEditText>(R.id.etConfirmPassword)
 
-                        if (oldPw.isEmpty() || newPw.isEmpty() || confPw.isEmpty()) {
-                            Toast.makeText(this, "Compila tutti i campi", Toast.LENGTH_SHORT).show()
-                            return@setOnClickListener
-                        }
-                        if (newPw != confPw) {
-                            etConf.error = "Le password non coincidono"
-                            return@setOnClickListener
-                        }
-                        if (newPw.length < 6) {
-                            etNew.error = "Minimo 6 caratteri"
-                            return@setOnClickListener
-                        }
+        dialog.findViewById<MaterialButton>(R.id.btnCancel).setOnClickListener {
+            dialog.dismiss()
+        }
 
-                        doChangePassword(oldPw, newPw, dialog)
-                    }
-                }
-                dialog.show()
+        dialog.findViewById<MaterialButton>(R.id.btnConfirm).setOnClickListener {
+            val oldPw  = etOld.text.toString()
+            val newPw  = etNew.text.toString()
+            val confPw = etConf.text.toString()
+
+            if (oldPw.isEmpty() || newPw.isEmpty() || confPw.isEmpty()) {
+                Toast.makeText(this, "Compila tutti i campi", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+            if (newPw != confPw) {
+                etConf.error = "Le password non coincidono"
+                return@setOnClickListener
+            }
+            if (newPw.length < 6) {
+                etNew.error = "Minimo 6 caratteri"
+                return@setOnClickListener
+            }
+
+            doChangePassword(oldPw, newPw, dialog)
+        }
+
+        dialog.show()
     }
 
-    private fun doChangePassword(oldPw: String, newPw: String, dialog: AlertDialog) {
+    private fun doChangePassword(oldPw: String, newPw: String, dialog: Dialog) {
         RetrofitClient.getInstance(this)
             .changePassword(username, mapOf("old_password" to oldPw, "new_password" to newPw))
             .enqueue(object : Callback<GenericResponse> {
@@ -199,11 +193,33 @@ class ProfileActivity : AppCompatActivity() {
 
     // ── Logout ────────────────────────────────────────────────────────────────
 
-    private fun logout() {
-        getSharedPreferences("DOORmotic", MODE_PRIVATE).edit().clear().apply()
-        val intent = Intent(this, LoginActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    private fun showLogoutDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_confirm_access, null)
+
+        dialogView.findViewById<TextView>(R.id.tvDialogIcon).text    = "👋"
+        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text   = "Logout"
+        dialogView.findViewById<TextView>(R.id.tvDialogMessage).text  = "Sei sicuro di voler uscire?"
+        dialogView.findViewById<MaterialButton>(R.id.btnConfirm).text = "Sì"
+        dialogView.findViewById<MaterialButton>(R.id.btnCancel).text  = "No"
+
+        val dialog = AlertDialog.Builder(this, R.style.TransparentDialog)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+
+        dialogView.findViewById<View>(R.id.btnCancel).setOnClickListener {
+            dialog.dismiss()
         }
-        startActivity(intent)
+        dialogView.findViewById<View>(R.id.btnConfirm).setOnClickListener {
+            dialog.dismiss()
+            getSharedPreferences("DOORmotic", MODE_PRIVATE).edit().clear().apply()
+            startActivity(
+                Intent(this, LoginActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            )
+        }
+
+        dialog.show()
     }
 }

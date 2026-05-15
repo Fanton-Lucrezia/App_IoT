@@ -177,7 +177,19 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:visibility="gone" />
-
+            <!-- Bottone elimina tag -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeleteTag"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:text="Elimina tag"
+                android:textSize="16sp"
+                android:textColor="@color/error"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                app:cornerRadius="16dp"
+                app:strokeColor="@color/error"
+                app:strokeWidth="1dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

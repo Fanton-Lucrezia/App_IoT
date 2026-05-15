@@ -2,6 +2,7 @@ package com.example.progettoappiot
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,17 +28,30 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
 
-        val prefs         = getSharedPreferences("DOORmotic", MODE_PRIVATE)
-        val currentUrl    = prefs.getString("server_url", DEFAULT_SERVER_URL) ?: DEFAULT_SERVER_URL
-        val appVersion    = packageManager.getPackageInfo(packageName, 0).versionName ?: "1.0"
+        val prefs      = getSharedPreferences("DOORmotic", MODE_PRIVATE)
+        val isAdmin    = prefs.getBoolean("is_admin", false)
+        val currentUrl = prefs.getString("server_url", DEFAULT_SERVER_URL) ?: DEFAULT_SERVER_URL
+        val appVersion = packageManager.getPackageInfo(packageName, 0).versionName ?: "1.0"
 
-        val etServerUrl   = findViewById<TextInputEditText>(R.id.etServerUrl)
-        val btnTestConn   = findViewById<MaterialButton>(R.id.btnTestConnection)
-        val btnSaveUrl    = findViewById<MaterialButton>(R.id.btnSaveUrl)
-        val btnResetUrl   = findViewById<MaterialButton>(R.id.btnResetUrl)
-        val tvConnStatus  = findViewById<TextView>(R.id.tvConnectionStatus)
-        val progressConn  = findViewById<View>(R.id.progressConnection)
-        val tvVersion     = findViewById<TextView>(R.id.tvAppVersion)
+        val etServerUrl  = findViewById<TextInputEditText>(R.id.etServerUrl)
+        val btnTestConn  = findViewById<MaterialButton>(R.id.btnTestConnection)
+        val btnSaveUrl   = findViewById<MaterialButton>(R.id.btnSaveUrl)
+        val btnResetUrl  = findViewById<MaterialButton>(R.id.btnResetUrl)
+        val tvConnStatus = findViewById<TextView>(R.id.tvConnectionStatus)
+        val progressConn = findViewById<View>(R.id.progressConnection)
+        val tvVersion    = findViewById<TextView>(R.id.tvAppVersion)
+
+        // ── SEZIONE QR CODE (solo admin) ──────────────────────────────────────
+        val qrSection  = findViewById<View>(R.id.qrSection)        // card + label
+        val imgQr      = findViewById<ImageView>(R.id.imgQrCode)   // ImageView nel layout
+
+        if (isAdmin) {
+            qrSection.visibility = View.VISIBLE
+            imgQr.setImageResource(R.drawable.qr_doormotic)
+        } else {
+            qrSection.visibility = View.GONE
+        }
+        // ─────────────────────────────────────────────────────────────────────
 
         etServerUrl.setText(currentUrl)
         tvVersion.text = "Versione $appVersion"
@@ -71,7 +85,6 @@ class SettingsActivity : AppCompatActivity() {
             tvConnStatus.visibility = View.GONE
             btnTestConn.isEnabled   = false
 
-            // Salva temporaneamente per testare con RetrofitClient
             val prevUrl = prefs.getString("server_url", DEFAULT_SERVER_URL)
             prefs.edit().putString("server_url", url).apply()
             RetrofitClient.resetInstance()
@@ -86,12 +99,11 @@ class SettingsActivity : AppCompatActivity() {
                         btnTestConn.isEnabled   = true
                         tvConnStatus.visibility = View.VISIBLE
                         if (response.isSuccessful) {
-                            tvConnStatus.text      = "✅ Connessione riuscita"
+                            tvConnStatus.text = "✅ Connessione riuscita"
                             tvConnStatus.setTextColor(getColor(R.color.access_granted))
                         } else {
-                            tvConnStatus.text      = "⚠️ Server raggiunto ma risposta inattesa (${response.code()})"
+                            tvConnStatus.text = "⚠️ Server raggiunto ma risposta inattesa (${response.code()})"
                             tvConnStatus.setTextColor(getColor(R.color.warning))
-                            // ripristina URL precedente
                             prefs.edit().putString("server_url", prevUrl).apply()
                             RetrofitClient.resetInstance()
                         }
@@ -103,7 +115,6 @@ class SettingsActivity : AppCompatActivity() {
                         tvConnStatus.visibility = View.VISIBLE
                         tvConnStatus.text       = "❌ Impossibile raggiungere il server"
                         tvConnStatus.setTextColor(getColor(R.color.error))
-                        // ripristina URL precedente
                         prefs.edit().putString("server_url", prevUrl).apply()
                         RetrofitClient.resetInstance()
                     }

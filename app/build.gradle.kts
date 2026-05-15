@@ -69,6 +69,8 @@ dependencies {
     // Firebase BOM — gestisce le versioni automaticamente
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation ("com.google.firebase:firebase-auth-ktx:22.3.1")
+
 
     // Test
     testImplementation(libs.junit)

@@ -317,8 +317,9 @@ class MainActivity : AppCompatActivity() {
 
         dialogView.findViewById<TextView>(R.id.tvDialogIcon).text = "👋"
         dialogView.findViewById<TextView>(R.id.tvDialogTitle).text = "Logout"
-        dialogView.findViewById<TextView>(R.id.tvDialogMessage).text = "Sei sicuro di voler uscire?"
-        dialogView.findViewById<MaterialButton>(R.id.btnConfirm).text = "Sì, esci"
+        dialogView.findViewById<TextView>(R.id.tvDialogMessage).text  = "Sei sicuro di voler uscire?"
+        dialogView.findViewById<MaterialButton>(R.id.btnConfirm).text = "Sì"
+        dialogView.findViewById<MaterialButton>(R.id.btnCancel).text  = "No"
 
         val dialog = AlertDialog.Builder(this, R.style.TransparentDialog)
             .setView(dialogView)

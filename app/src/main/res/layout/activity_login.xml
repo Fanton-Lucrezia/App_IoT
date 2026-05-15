@@ -39,7 +39,7 @@
             android:textColor="@color/gray_medium"
             android:textSize="14sp" />
 
-        <!-- Username: hint dentro il campo, scompare quando si clicca -->
+        <!-- Username -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -60,14 +60,15 @@
                 android:textColorHint="@color/gray_medium"
                 android:background="@null"
                 android:padding="16dp" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Password: hint dentro il campo, scompare quando si clicca -->
+        <!-- Password -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="8dp"
             app:hintEnabled="false"
             app:boxStrokeColor="@color/lilla_dark"
             app:boxBackgroundColor="@color/white"
@@ -85,8 +86,24 @@
                 android:textColorHint="@color/gray_medium"
                 android:background="@null"
                 android:padding="16dp" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Password dimenticata — destra, subito sotto il campo -->
+        <TextView
+            android:id="@+id/tvForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="4dp"
+            android:text="Password dimenticata?"
+            android:textColor="@color/lilla_primary"
+            android:textSize="13sp" />
+
+        <!-- Bottone login -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
@@ -98,6 +115,7 @@
             app:backgroundTint="@color/lilla_dark"
             app:cornerRadius="12dp" />
 
+        <!-- Registrati -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,8 +138,10 @@
                 android:textColor="@color/lilla_dark"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
+        <!-- Impostazioni server -->
         <ImageButton
             android:id="@+id/btnSettings"
             android:layout_width="wrap_content"

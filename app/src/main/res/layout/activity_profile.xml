@@ -42,20 +42,23 @@
                 android:orientation="vertical"
                 android:layout_marginBottom="32dp">
 
+                <!-- Bordo cerchio sul FrameLayout, non sulla ShapeableImageView -->
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:padding="2dp"
+                    android:background="@drawable/bg_circle_border_accent">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ivProfileAvatar"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:scaleType="centerCrop"
-                        android:background="@drawable/bg_avatar_large"
                         android:src="@drawable/ic_person"
                         android:padding="20dp"
-                        app:tint="@color/lilla_dark" />
+                        app:tint="@color/lilla_dark"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="32dp"
@@ -79,7 +82,6 @@
 
                 </FrameLayout>
 
-                <!-- Username in viola principale, ben visibile -->
                 <TextView
                     android:id="@+id/tvProfileUsername"
                     android:layout_width="wrap_content"
@@ -116,7 +118,6 @@
                 android:letterSpacing="0.1"
                 android:layout_marginBottom="8dp" />
 
-            <!-- Card Cambia password — sfondo lilla chiaro -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,7 +151,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Logout — stile uguale ai riquadri accesso: sfondo lilla chiaro -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

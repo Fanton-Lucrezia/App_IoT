@@ -55,6 +55,21 @@ interface ApiService {
         @Body body: Map<String, String>
     ): Call<GenericResponse>
 
+    @POST("users/reset_password")
+    fun resetPassword(@Body body: Map<String, String>): Call<GenericResponse>
+
+    @POST("users/request_reset")
+    fun requestReset(@Body body: Map<String, String>): Call<GenericResponse>
+
+    @POST("users/approve_reset")
+    fun approveReset(@Body body: Map<String, String>): Call<GenericResponse>
+
+    @POST("users/reject_reset")
+    fun rejectReset(@Body body: Map<String, String>): Call<GenericResponse>
+
+    @GET("users/pending_resets")
+    fun getPendingResets(): Call<List<String>>
+
     @PATCH("users/{username}/profile_picture")
     fun updateProfilePicture(
         @Path("username") username: String,

@@ -9,16 +9,26 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <!-- Avatar -->
-    <ImageView
-        android:id="@+id/navHeaderAvatar"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+    <!-- Bordo cerchio sul FrameLayout, non sulla ShapeableImageView -->
+    <FrameLayout
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginEnd="14dp"
-        android:background="@drawable/bg_avatar_large"
-        android:src="@drawable/ic_person"
-        android:padding="12dp"
-        android:scaleType="centerCrop" />
+        android:padding="2dp"
+        android:background="@drawable/bg_circle_border_white">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/navHeaderAvatar"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_person"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            app:tint="@color/lilla_dark"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -42,6 +52,7 @@
             android:text="Utente"
             android:textColor="#CCFFFFFF"
             android:textSize="13sp" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -73,6 +73,25 @@ class MainActivity : AppCompatActivity() {
         handler.post(pollingRunnable)
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Ricarica foto profilo nel drawer se aggiornata
+        val navView = findViewById<NavigationView>(R.id.nav_view)
+        val header  = navView.getHeaderView(0)
+        val ivHeaderAvatar = header.findViewById<ImageView>(R.id.navHeaderAvatar)
+        val picB64  = getSharedPreferences("DOORmotic", MODE_PRIVATE)
+            .getString("profile_picture_b64", null)
+        if (!picB64.isNullOrEmpty() && ivHeaderAvatar != null) {
+            try {
+                val bytes  = android.util.Base64.decode(picB64, android.util.Base64.NO_WRAP)
+                val bitmap = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                ivHeaderAvatar.setPadding(0, 0, 0, 0)
+                ivHeaderAvatar.imageTintList = null
+                ivHeaderAvatar.setImageBitmap(bitmap)
+            } catch (_: Exception) { }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(pollingRunnable)
@@ -111,6 +130,9 @@ class MainActivity : AppCompatActivity() {
             try {
                 val bytes  = android.util.Base64.decode(picB64, android.util.Base64.NO_WRAP)
                 val bitmap = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+
+                ivHeaderAvatar.setPadding(0, 0, 0, 0)
+                ivHeaderAvatar.imageTintList = null
                 ivHeaderAvatar.setImageBitmap(bitmap)
             } catch (_: Exception) { }
         }

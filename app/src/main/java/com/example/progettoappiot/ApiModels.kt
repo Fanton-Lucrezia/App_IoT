@@ -39,7 +39,8 @@ data class Tag(
 data class UserItem(
     val username: String,
     val has_door_access: Boolean,
-    val is_admin: Boolean? = null      //nullable per retrocompatibilità
+    val is_admin: Boolean? = null,      //nullable per retrocompatibilità
+    val profile_picture: String? = null
 )
 
 data class GenericResponse(

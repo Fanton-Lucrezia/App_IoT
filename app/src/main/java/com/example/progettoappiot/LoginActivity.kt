@@ -12,6 +12,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.app.Dialog
 
 class LoginActivity : AppCompatActivity() {
 
@@ -53,6 +54,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
+        findViewById<View>(R.id.tvForgotPassword).setOnClickListener {
+            showResetPasswordDialog()
+        }
+
         loginBtn.setOnClickListener {
             val user = usernameET.text.toString().trim()
             val pass = passwordET.text.toString()
@@ -66,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
             loginBtn.isEnabled    = false
             performLogin(user, pass, loadingBar, loginBtn, prefs)
         }
+
     }
 
     // ── Dialog "Vuoi accedere come X?" ───────────────────────────────────────
@@ -186,5 +192,76 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                 }
             })
+    }
+
+    private fun showResetPasswordDialog() {
+        val currentUsername = findViewById<TextInputEditText>(R.id.usernameEditText)
+            .text.toString().trim()
+
+        val layout = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(48, 32, 48, 16)
+        }
+        val etUsername = android.widget.EditText(this).apply {
+            hint = "Username"
+            setText(currentUsername)
+        }
+        val etNewPw = android.widget.EditText(this).apply {
+            hint = "Nuova password"
+            inputType = android.text.InputType.TYPE_CLASS_TEXT or
+                    android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+        }
+        val etConfPw = android.widget.EditText(this).apply {
+            hint = "Conferma password"
+            inputType = android.text.InputType.TYPE_CLASS_TEXT or
+                    android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+        }
+        layout.addView(etUsername)
+        layout.addView(etNewPw)
+        layout.addView(etConfPw)
+
+        AlertDialog.Builder(this)
+            .setTitle("Reimposta password")
+            .setMessage("La richiesta verrà inviata all'amministratore per approvazione.")
+            .setView(layout)
+            .setPositiveButton("Invia richiesta") { _, _ ->
+                val user   = etUsername.text.toString().trim()
+                val newPw  = etNewPw.text.toString()
+                val confPw = etConfPw.text.toString()
+
+                if (user.isEmpty() || newPw.isEmpty() || confPw.isEmpty()) {
+                    Toast.makeText(this, "Compila tutti i campi", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                if (newPw != confPw) {
+                    Toast.makeText(this, "Le password non coincidono", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                if (newPw.length < 6) {
+                    Toast.makeText(this, "Password troppo corta (min 6 caratteri)", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                RetrofitClient.getInstance(this)
+                    .requestReset(mapOf("username" to user, "new_password" to newPw))
+                    .enqueue(object : retrofit2.Callback<GenericResponse> {
+                        override fun onResponse(call: retrofit2.Call<GenericResponse>, response: retrofit2.Response<GenericResponse>) {
+                            val body = response.body()
+                            if (response.isSuccessful && body?.success == true) {
+                                Toast.makeText(this@LoginActivity,
+                                    "✅ Richiesta inviata! Attendi l'approvazione dell'admin.",
+                                    Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(this@LoginActivity,
+                                    body?.message ?: "Errore", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        override fun onFailure(call: retrofit2.Call<GenericResponse>, t: Throwable) {
+                            Toast.makeText(this@LoginActivity, "❌ Server non raggiungibile", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+            }
+            .setNegativeButton("Annulla", null)
+            .show()
     }
 }

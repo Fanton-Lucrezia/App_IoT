@@ -121,6 +121,8 @@ class ProfileActivity : AppCompatActivity() {
         try {
             val bytes  = Base64.decode(b64, Base64.NO_WRAP)
             val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+            ivAvatar.setPadding(0, 0, 0, 0)
+            ivAvatar.imageTintList = null
             ivAvatar.setImageBitmap(bitmap)
         } catch (_: Exception) { }
     }

@@ -31,6 +31,7 @@ class UsersActivity : AppCompatActivity() {
 
     private val allUsers      = mutableListOf<UserItem>()
     private val filteredUsers = mutableListOf<UserItem>()
+    private val pendingResets = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +49,12 @@ class UsersActivity : AppCompatActivity() {
         etSearch     = findViewById(R.id.etSearchUsers)
 
         adapter = UserAdapter(
-            users           = filteredUsers,
-            onToggleAccess  = { user, hasAccess -> confirmToggleAccess(user, hasAccess) },
-            onDelete        = { user -> showDeleteUserDialog(user) }
+            users          = filteredUsers,
+            pendingResets  = pendingResets,
+            onToggleAccess = { user, hasAccess -> confirmToggleAccess(user, hasAccess) },
+            onDelete       = { user -> showDeleteUserDialog(user) },
+            onApproveReset = { username -> approveReset(username) },
+            onRejectReset  = { username -> rejectReset(username) }
         )
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -88,6 +92,7 @@ class UsersActivity : AppCompatActivity() {
                                 .thenBy { it.username }
                         ))
                         filterUsers(etSearch.text.toString())
+                        loadPendingResets()
                         updateUserCount()
                     } else {
                         Toast.makeText(this@UsersActivity, "Errore caricamento utenti", Toast.LENGTH_SHORT).show()
@@ -97,6 +102,18 @@ class UsersActivity : AppCompatActivity() {
                     progressBar.visibility = View.GONE
                     Toast.makeText(this@UsersActivity, "Errore di connessione", Toast.LENGTH_SHORT).show()
                 }
+            })
+    }
+
+    private fun loadPendingResets() {
+        RetrofitClient.getInstance(this).getPendingResets()
+            .enqueue(object : Callback<List<String>> {
+                override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
+                    pendingResets.clear()
+                    pendingResets.addAll(response.body() ?: emptyList())
+                    adapter.notifyDataSetChanged()
+                }
+                override fun onFailure(call: Call<List<String>>, t: Throwable) {}
             })
     }
 
@@ -141,7 +158,7 @@ class UsersActivity : AppCompatActivity() {
         }
         dialogView.findViewById<View>(R.id.btnCancel).setOnClickListener {
             dialog.dismiss()
-            loadUsers()  // ripristina lo switch alla posizione originale
+            loadUsers()
         }
         dialog.show()
     }
@@ -206,23 +223,63 @@ class UsersActivity : AppCompatActivity() {
                 }
             })
     }
+
+    // ── Reset password ────────────────────────────────────────────────────────
+
+    private fun approveReset(username: String) {
+        RetrofitClient.getInstance(this)
+            .approveReset(mapOf("username" to username))
+            .enqueue(object : Callback<GenericResponse> {
+                override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
+                    Toast.makeText(this@UsersActivity, "✅ Password di $username reimpostata", Toast.LENGTH_SHORT).show()
+                    loadUsers()
+                    loadPendingResets()
+                }
+                override fun onFailure(call: Call<GenericResponse>, t: Throwable) {
+                    Toast.makeText(this@UsersActivity, "Errore di connessione", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
+    private fun rejectReset(username: String) {
+        RetrofitClient.getInstance(this)
+            .rejectReset(mapOf("username" to username))
+            .enqueue(object : Callback<GenericResponse> {
+                override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
+                    Toast.makeText(this@UsersActivity, "🚫 Richiesta rifiutata", Toast.LENGTH_SHORT).show()
+                    loadUsers()
+                    loadPendingResets()
+                }
+                override fun onFailure(call: Call<GenericResponse>, t: Throwable) {
+                    Toast.makeText(this@UsersActivity, "Errore di connessione", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
 }
 
 // ── Adapter ───────────────────────────────────────────────────────────────────
 
 class UserAdapter(
     private val users: List<UserItem>,
+    private val pendingResets: List<String>,
     private val onToggleAccess: (UserItem, Boolean) -> Unit,
-    private val onDelete: (UserItem) -> Unit
+    private val onDelete: (UserItem) -> Unit,
+    private val onApproveReset: (String) -> Unit,
+    private val onRejectReset: (String) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvInitial:    TextView       = view.findViewById(R.id.tvUserInitial)
-        val tvUsername:   TextView       = view.findViewById(R.id.tvUsername)
-        val chipRole:     Chip           = view.findViewById(R.id.chipUserRole)
-        val chipAccess:   Chip           = view.findViewById(R.id.chipUserAccess)
-        val switchAccess: SwitchMaterial = view.findViewById(R.id.switchUserAccess)
-        val btnDelete:    View           = view.findViewById(R.id.btnDeleteUser)
+        val tvInitial:      TextView       = view.findViewById(R.id.tvUserInitial)
+        val tvUsername:     TextView       = view.findViewById(R.id.tvUsername)
+        val chipRole:       Chip           = view.findViewById(R.id.chipUserRole)
+        val chipAccess:     Chip           = view.findViewById(R.id.chipUserAccess)
+        val switchAccess:   SwitchMaterial = view.findViewById(R.id.switchUserAccess)
+        val btnDelete:      View           = view.findViewById(R.id.btnDeleteUser)
+        val tvResetRequest: TextView       = view.findViewById(R.id.tvResetRequest)
+        val btnApprove:     View           = view.findViewById(R.id.btnApproveReset)
+        val btnReject:      View           = view.findViewById(R.id.btnRejectReset)
+        val ivAvatar: com.google.android.material.imageview.ShapeableImageView =
+            view.findViewById(R.id.ivUserAvatar)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -263,6 +320,23 @@ class UserAdapter(
                 else      -> R.drawable.bg_avatar_warning
             }
         )
+        // Foto profilo: mostra se disponibile, altrimenti mostra l'iniziale
+        val pic = user.profile_picture
+        if (!pic.isNullOrEmpty()) {
+            try {
+                val bytes  = android.util.Base64.decode(pic, android.util.Base64.NO_WRAP)
+                val bitmap = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                holder.ivAvatar.setImageBitmap(bitmap)
+                holder.ivAvatar.visibility  = View.VISIBLE
+                holder.tvInitial.visibility = View.INVISIBLE
+            } catch (_: Exception) {
+                holder.ivAvatar.visibility  = View.GONE
+                holder.tvInitial.visibility = View.VISIBLE
+            }
+        } else {
+            holder.ivAvatar.visibility  = View.GONE
+            holder.tvInitial.visibility = View.VISIBLE
+        }
 
         holder.switchAccess.setOnCheckedChangeListener(null)
         holder.switchAccess.isChecked = hasAccess
@@ -270,9 +344,16 @@ class UserAdapter(
             onToggleAccess(user, checked)
         }
 
-        // Cestino visibile solo per utenti non-admin
         holder.btnDelete.visibility = if (isAdmin) View.GONE else View.VISIBLE
         holder.btnDelete.setOnClickListener { onDelete(user) }
+
+        val hasPendingReset = pendingResets.contains(user.username)
+        holder.tvResetRequest.visibility = if (hasPendingReset) View.VISIBLE else View.GONE
+        holder.btnApprove.visibility     = if (hasPendingReset) View.VISIBLE else View.GONE
+        holder.btnReject.visibility      = if (hasPendingReset) View.VISIBLE else View.GONE
+
+        holder.btnApprove.setOnClickListener { onApproveReset(user.username) }
+        holder.btnReject.setOnClickListener  { onRejectReset(user.username) }
     }
 
     override fun getItemCount() = users.size

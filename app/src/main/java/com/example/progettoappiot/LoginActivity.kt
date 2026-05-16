@@ -8,8 +8,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
@@ -201,10 +203,9 @@ class LoginActivity : AppCompatActivity() {
         dialogView.findViewById<TextView>(R.id.tvDialogTitle).text   = "Reimposta password"
         dialogView.findViewById<TextView>(R.id.tvDialogMessage).text =
             "La richiesta verrà inviata all'amministratore per approvazione."
-        dialogView.findViewById<MaterialButton>(R.id.btnConfirm).text = "Invia richiesta"
+        dialogView.findViewById<MaterialButton>(R.id.btnConfirm).text = "Invia"
         dialogView.findViewById<MaterialButton>(R.id.btnCancel).text  = "Annulla"
 
-        // Campi di input inseriti dinamicamente tra il messaggio e i pulsanti
         val dp8  = (8  * resources.displayMetrics.density).toInt()
         val dp16 = (16 * resources.displayMetrics.density).toInt()
 
@@ -213,24 +214,40 @@ class LoginActivity : AppCompatActivity() {
             setPadding(dp16, dp8, dp16, 0)
         }
 
-        fun makeField(hint: String, isPassword: Boolean) =
-            com.google.android.material.textfield.TextInputLayout(
-                this, null,
+        // Replica esatta dello stile OutlinedBox di activity_login.xml:
+        // hintEnabled=false, hint inline sull'EditText, bordo viola, sfondo bianco,
+        // testo nero, hint grigio, background null, padding 16dp
+        fun makeField(hint: String, isPassword: Boolean): TextInputLayout {
+            val til = TextInputLayout(
+                this,
+                null,
                 com.google.android.material.R.attr.textInputOutlinedStyle
             ).apply {
-                this.hint = hint
-                addView(
-                    com.google.android.material.textfield.TextInputEditText(context).apply {
-                        if (isPassword) inputType =
-                            android.text.InputType.TYPE_CLASS_TEXT or
-                                    android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    }
-                )
+                isHintEnabled = false
+                boxStrokeColor = ContextCompat.getColor(this@LoginActivity, R.color.lilla_dark)
+                setBoxBackgroundColorResource(R.color.white)
                 layoutParams = android.widget.LinearLayout.LayoutParams(
                     android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
                     android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply { setMargins(0, dp8, 0, dp8) }
             }
+
+            val et = TextInputEditText(til.context).apply {
+                this.hint = hint
+                setHintTextColor(
+                    ContextCompat.getColorStateList(this@LoginActivity, R.color.gray_medium)
+                )
+                setTextColor(ContextCompat.getColor(this@LoginActivity, android.R.color.black))
+                background = null
+                setPadding(dp16, dp16, dp16, dp16)
+                if (isPassword) inputType =
+                    android.text.InputType.TYPE_CLASS_TEXT or
+                            android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+
+            til.addView(et)
+            return til
+        }
 
         val tilUsername = makeField("Username", false)
         val tilNewPw    = makeField("Nuova password", true)

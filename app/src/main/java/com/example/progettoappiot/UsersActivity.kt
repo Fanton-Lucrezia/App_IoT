@@ -276,8 +276,9 @@ class UserAdapter(
         val switchAccess:   SwitchMaterial = view.findViewById(R.id.switchUserAccess)
         val btnDelete:      View           = view.findViewById(R.id.btnDeleteUser)
         val tvResetRequest: TextView       = view.findViewById(R.id.tvResetRequest)
-        val btnApprove:     View           = view.findViewById(R.id.btnApproveReset)
-        val btnReject:      View           = view.findViewById(R.id.btnRejectReset)
+        val layoutResetRequest: View = view.findViewById(R.id.layoutResetRequest)
+        val btnApprove: View         = view.findViewById(R.id.btnApproveReset)
+        val btnReject: View          = view.findViewById(R.id.btnRejectReset)
         val ivAvatar: com.google.android.material.imageview.ShapeableImageView =
             view.findViewById(R.id.ivUserAvatar)
     }
@@ -320,23 +321,6 @@ class UserAdapter(
                 else      -> R.drawable.bg_avatar_warning
             }
         )
-        // Foto profilo: mostra se disponibile, altrimenti mostra l'iniziale
-        val pic = user.profile_picture
-        if (!pic.isNullOrEmpty()) {
-            try {
-                val bytes  = android.util.Base64.decode(pic, android.util.Base64.NO_WRAP)
-                val bitmap = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                holder.ivAvatar.setImageBitmap(bitmap)
-                holder.ivAvatar.visibility  = View.VISIBLE
-                holder.tvInitial.visibility = View.INVISIBLE
-            } catch (_: Exception) {
-                holder.ivAvatar.visibility  = View.GONE
-                holder.tvInitial.visibility = View.VISIBLE
-            }
-        } else {
-            holder.ivAvatar.visibility  = View.GONE
-            holder.tvInitial.visibility = View.VISIBLE
-        }
 
         holder.switchAccess.setOnCheckedChangeListener(null)
         holder.switchAccess.isChecked = hasAccess
@@ -347,13 +331,12 @@ class UserAdapter(
         holder.btnDelete.visibility = if (isAdmin) View.GONE else View.VISIBLE
         holder.btnDelete.setOnClickListener { onDelete(user) }
 
+        // ── Reset password ────────────────────────────────────────────
         val hasPendingReset = pendingResets.contains(user.username)
-        holder.tvResetRequest.visibility = if (hasPendingReset) View.VISIBLE else View.GONE
-        holder.btnApprove.visibility     = if (hasPendingReset) View.VISIBLE else View.GONE
-        holder.btnReject.visibility      = if (hasPendingReset) View.VISIBLE else View.GONE
+        holder.layoutResetRequest.visibility = if (hasPendingReset) View.VISIBLE else View.GONE
 
         holder.btnApprove.setOnClickListener { onApproveReset(user.username) }
-        holder.btnReject.setOnClickListener  { onRejectReset(user.username) }
+        holder.btnReject.setOnClickListener  { onRejectReset(user.username)  }
     }
 
     override fun getItemCount() = users.size

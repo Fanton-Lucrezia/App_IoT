@@ -328,6 +328,29 @@ class UserAdapter(
             onToggleAccess(user, checked)
         }
 
+        // ── Foto profilo ──────────────────────────────────────────────
+        val picB64 = user.profile_picture
+        if (!picB64.isNullOrEmpty()) {
+            try {
+                val bytes = android.util.Base64.decode(picB64, android.util.Base64.DEFAULT)
+                val bmp   = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                if (bmp != null) {
+                    holder.ivAvatar.setImageBitmap(bmp)
+                    holder.ivAvatar.visibility = View.VISIBLE
+                    holder.tvInitial.visibility = View.GONE
+                } else {
+                    holder.ivAvatar.visibility = View.GONE
+                    holder.tvInitial.visibility = View.VISIBLE
+                }
+            } catch (_: Exception) {
+                holder.ivAvatar.visibility = View.GONE
+                holder.tvInitial.visibility = View.VISIBLE
+            }
+        } else {
+            holder.ivAvatar.visibility = View.GONE
+            holder.tvInitial.visibility = View.VISIBLE
+        }
+
         holder.btnDelete.visibility = if (isAdmin) View.GONE else View.VISIBLE
         holder.btnDelete.setOnClickListener { onDelete(user) }
 

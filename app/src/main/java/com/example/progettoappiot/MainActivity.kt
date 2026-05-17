@@ -87,6 +87,7 @@ class MainActivity : AppCompatActivity() {
                 val bitmap = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                 ivHeaderAvatar.setPadding(0, 0, 0, 0)
                 ivHeaderAvatar.imageTintList = null
+                ivHeaderAvatar.background = null
                 ivHeaderAvatar.setImageBitmap(bitmap)
             } catch (_: Exception) { }
         }
@@ -133,6 +134,7 @@ class MainActivity : AppCompatActivity() {
 
                 ivHeaderAvatar.setPadding(0, 0, 0, 0)
                 ivHeaderAvatar.imageTintList = null
+                ivHeaderAvatar.background = null
                 ivHeaderAvatar.setImageBitmap(bitmap)
             } catch (_: Exception) { }
         }

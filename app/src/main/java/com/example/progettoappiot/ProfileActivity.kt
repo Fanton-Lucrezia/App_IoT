@@ -89,7 +89,14 @@ class ProfileActivity : AppCompatActivity() {
     private fun uploadProfilePicture(uri: Uri) {
         val inputStream: InputStream = contentResolver.openInputStream(uri) ?: return
         val bitmap = BitmapFactory.decodeStream(inputStream)
-        val scaled = Bitmap.createScaledBitmap(bitmap, 256, 256, true)
+
+        // Ritaglia al centro un quadrato perfetto per evitare la deformazione
+        val size = minOf(bitmap.width, bitmap.height)
+        val xOffset = (bitmap.width - size) / 2
+        val yOffset = (bitmap.height - size) / 2
+        val cropped = Bitmap.createBitmap(bitmap, xOffset, yOffset, size, size)
+
+        val scaled = Bitmap.createScaledBitmap(cropped, 256, 256, true)
         val baos   = ByteArrayOutputStream()
         scaled.compress(Bitmap.CompressFormat.JPEG, 80, baos)
         val b64 = Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP)
@@ -123,6 +130,7 @@ class ProfileActivity : AppCompatActivity() {
             val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
             ivAvatar.setPadding(0, 0, 0, 0)
             ivAvatar.imageTintList = null
+            ivAvatar.background = null          // rimuove lo sfondo lilla che causa la "ciambella"
             ivAvatar.setImageBitmap(bitmap)
         } catch (_: Exception) { }
     }

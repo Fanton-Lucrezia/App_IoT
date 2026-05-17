@@ -83,35 +83,67 @@ class LoginActivity : AppCompatActivity() {
         loginBtn: View,
         prefs: android.content.SharedPreferences
     ) {
-        AlertDialog.Builder(this)
-            .setTitle("Accesso rapido")
-            .setMessage("Vuoi accedere come $savedUser?")
-            .setPositiveButton("Sì, accedi") { _, _ ->
-                usernameET.setText(savedUser)
-                passwordET.setText(savedPass)
-                usernameET.clearFocus()
-                loadingBar.visibility = View.VISIBLE
-                loginBtn.isEnabled    = false
-                performLogin(savedUser, savedPass, loadingBar, loginBtn, prefs)
-            }
-            .setNegativeButton("No, inserisci manualmente") { dialog, _ ->
-                usernameET.setText("")
-                passwordET.setText("")
-                usernameET.clearFocus()
-                dialog.dismiss()
-            }
-            .setNeutralButton("Dimentica account") { dialog, _ ->
-                prefs.edit()
-                    .remove("saved_username")
-                    .remove("saved_password")
-                    .apply()
-                usernameET.onFocusChangeListener = null
-                usernameET.clearFocus()
-                dialog.dismiss()
-                Toast.makeText(this, "Credenziali dimenticate", Toast.LENGTH_SHORT).show()
-            }
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_confirm_access, null)
+
+        dialogView.findViewById<TextView>(R.id.tvDialogIcon).text    = "👋"
+        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text   = "Accesso rapido"
+        dialogView.findViewById<TextView>(R.id.tvDialogMessage).text =
+            "Vuoi accedere come $savedUser?"
+        dialogView.findViewById<MaterialButton>(R.id.btnConfirm).text = "Sì"
+        dialogView.findViewById<MaterialButton>(R.id.btnCancel).text  = "No"
+
+        // Aggiungi link "Dimentica account" sotto i pulsanti
+        val container = dialogView.findViewById<View>(R.id.tvDialogMessage).parent as android.view.ViewGroup
+        val tvForget = TextView(this).apply {
+            text = "Dimentica account"
+            setTextColor(ContextCompat.getColor(this@LoginActivity, R.color.lilla_primary))
+            textSize = 13f
+            gravity = android.view.Gravity.CENTER
+            setPadding(0, (16 * resources.displayMetrics.density).toInt(), 0, 0)
+            isClickable = true
+            isFocusable = true
+        }
+        container.addView(tvForget)
+
+        val dialog = AlertDialog.Builder(this, R.style.TransparentDialog)
+            .setView(dialogView)
             .setCancelable(true)
-            .show()
+            .create()
+
+        dialogView.findViewById<View>(R.id.btnConfirm).setOnClickListener {
+            dialog.dismiss()
+            usernameET.setText(savedUser)
+            passwordET.setText(savedPass)
+            usernameET.clearFocus()
+            loadingBar.visibility = View.VISIBLE
+            loginBtn.isEnabled    = false
+            performLogin(savedUser, savedPass, loadingBar, loginBtn, prefs)
+        }
+
+        dialogView.findViewById<View>(R.id.btnCancel).setOnClickListener {
+            dialog.dismiss()
+            usernameET.setText("")
+            passwordET.setText("")
+            usernameET.clearFocus()
+            usernameET.onFocusChangeListener = null
+        }
+
+        tvForget.setOnClickListener {
+            dialog.dismiss()
+            prefs.edit()
+                .remove("saved_username")
+                .remove("saved_password")
+                .apply()
+            usernameET.onFocusChangeListener = null
+            usernameET.clearFocus()
+            Toast.makeText(this, "Credenziali dimenticate", Toast.LENGTH_SHORT).show()
+        }
+
+        dialog.setOnCancelListener {
+            usernameET.clearFocus()
+        }
+
+        dialog.show()
     }
 
     // ── Logica di login ───────────────────────────────────────────────────────
@@ -247,9 +279,13 @@ class LoginActivity : AppCompatActivity() {
                 setTextColor(ContextCompat.getColor(this@LoginActivity, android.R.color.black))
                 background = null
                 setPadding(dp16, dp16, dp16, dp16)
-                if (isPassword) inputType =
-                    android.text.InputType.TYPE_CLASS_TEXT or
-                            android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                if (isPassword) {
+                    inputType =
+                        android.text.InputType.TYPE_CLASS_TEXT or
+                                android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    // Evita il font monospace predefinito per i campi password
+                    typeface = android.graphics.Typeface.DEFAULT
+                }
             }
 
             til.addView(et)

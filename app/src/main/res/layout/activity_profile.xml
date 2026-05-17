@@ -58,7 +58,8 @@
                         android:src="@drawable/ic_person"
                         android:padding="20dp"
                         app:tint="@color/lilla_dark"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle" />
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+                        android:background="@color/lilla_light" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="32dp"

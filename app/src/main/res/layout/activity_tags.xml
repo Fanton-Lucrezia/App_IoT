@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/lilla_dark"
-            app:title="Tag RFID"
+            app:title="Gestione Tag"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="@color/white"
             app:titleTextAppearance="@style/TextAppearance.DOORmotic.Toolbar" />

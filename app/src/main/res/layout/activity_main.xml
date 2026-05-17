@@ -255,6 +255,18 @@
             android:visibility="gone"
             app:backgroundTint="@color/lilla_accent" />
 
+        <!-- FAB refresh permessi (visibile solo agli utenti non-admin) -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabRefreshMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            android:contentDescription="Aggiorna permessi"
+            android:src="@android:drawable/ic_popup_sync"
+            app:tint="@color/white"
+            app:backgroundTint="?attr/colorPrimary" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- ═══ DRAWER ════════════════════════════════════════════════ -->

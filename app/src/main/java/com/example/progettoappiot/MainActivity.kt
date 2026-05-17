@@ -174,12 +174,71 @@ class MainActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.noAccessText).visibility = View.VISIBLE
         }
 
+        val fabRefresh = findViewById<FloatingActionButton>(R.id.fabRefreshMain)
+
+        // Mostra il FAB solo agli utenti NON admin
+        if (!isAdmin) {
+            fabRefresh.visibility = View.VISIBLE
+            fabRefresh.setOnClickListener {
+                refreshPermissions()
+            }
+        }
         btnDoor.setOnClickListener {
             btnDoor.isEnabled = false
             if (isPortaAperta) chiudiPorta() else apriPorta()
         }
     }
 
+    private fun refreshPermissions() {
+        val prefs = getSharedPreferences("DOORmotic", MODE_PRIVATE)
+        val user = prefs.getString("username", "") ?: ""
+        val pass = prefs.getString("saved_password", "") ?: ""
+
+        if (user.isEmpty() || pass.isEmpty()) return
+
+        RetrofitClient.getInstance(this)
+            .login(mapOf("username" to user, "password" to pass))
+            .enqueue(object : Callback<LoginResponse> {
+                override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                    val body = response.body()
+                    if (response.isSuccessful && body?.success == true) {
+                        val newHasDoor = body.has_door_access ?: false
+                        val hadDoor    = hasDoorAccess
+
+                        // Aggiorna SharedPreferences
+                        prefs.edit()
+                            .putBoolean("has_door_access", newHasDoor)
+                            .apply()
+
+                        // Aggiorna variabile in memoria
+                        hasDoorAccess = newHasDoor
+
+                        // Aggiorna UI
+                        val btnDoor     = findViewById<MaterialButton>(R.id.btnApriPorta)
+                        val noAccess    = findViewById<TextView>(R.id.noAccessText)
+
+                        if (newHasDoor) {
+                            btnDoor.visibility  = View.VISIBLE
+                            noAccess.visibility = View.GONE
+                        } else {
+                            btnDoor.visibility  = View.GONE
+                            noAccess.visibility = View.VISIBLE
+                        }
+
+                        // Toast di feedback
+                        val msg = when {
+                            !hadDoor && newHasDoor  -> "✅ Accesso alla porta concesso!"
+                            hadDoor  && !newHasDoor -> "🚫 Accesso alla porta revocato"
+                            else                    -> "✓ Permessi aggiornati"
+                        }
+                        Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "❌ Server non raggiungibile", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
     // ── Sezione admin: log + banner tag sconosciuto ────────────────────
     private fun setupAdminSection() {
         val adminSection = findViewById<View>(R.id.adminLogSection)

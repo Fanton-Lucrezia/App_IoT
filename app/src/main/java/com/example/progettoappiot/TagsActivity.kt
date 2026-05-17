@@ -187,7 +187,7 @@ class TagAdapter(
         val label     = if (isUnknown) "Sconosciuto" else tag.label ?: "—"
 
         holder.tvLabel.text   = label
-        holder.tvTagId.text   = tag.tag_id ?: "—"
+        holder.tvTagId.text = if (isUnknown) tag.tag_id ?: "—" else tag.label ?: "—"
         holder.tvInitial.text = if (isUnknown) "?" else label.first().uppercaseChar().toString()
 
         holder.chipNew.visibility = if (isUnknown) View.VISIBLE else View.GONE

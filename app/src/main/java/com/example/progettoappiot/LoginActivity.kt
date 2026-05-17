@@ -136,13 +136,20 @@ class LoginActivity : AppCompatActivity() {
                         val isAdmin = body.is_admin ?: false
                         val hasDoor = body.has_door_access ?: false
 
-                        prefs.edit()
+                        val editor = prefs.edit()
                             .putString("username",         uname)
                             .putBoolean("is_admin",        isAdmin)
                             .putBoolean("has_door_access", hasDoor)
                             .putString("saved_username",   user)
                             .putString("saved_password",   pass)
-                            .apply()
+
+                        // Salva la foto profilo se presente nella risposta
+                        val pic = body.profile_picture
+                        if (!pic.isNullOrEmpty()) {
+                            editor.putString("profile_picture_b64", pic)
+                        }
+
+                        editor.apply()
 
                         if (isAdmin) {
                             FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
